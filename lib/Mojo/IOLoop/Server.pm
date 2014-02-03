@@ -4,7 +4,7 @@ use Mojo::Base 'Mojo::EventEmitter';
 use Carp 'croak';
 use File::Basename 'dirname';
 use File::Spec::Functions 'catfile';
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Scalar::Util 'weaken';
 use Socket qw(IPPROTO_TCP TCP_NODELAY);
 
@@ -40,7 +40,7 @@ sub DESTROY {
 }
 
 sub generate_port {
-  IO::Socket::INET->new(Listen => 5, LocalAddr => '127.0.0.1')->sockport;
+  IO::Socket::IP->new(Listen => 5, LocalAddr => '127.0.0.1')->sockport;
 }
 
 sub handle { shift->{handle} }
@@ -62,7 +62,7 @@ sub listen {
 
   # Reuse file descriptor
   my $handle;
-  my $class = IPV6 ? 'IO::Socket::IP' : 'IO::Socket::INET';
+  my $class = IPV6 ? 'IO::Socket::IP' : 'IO::Socket::IP';
   if (defined $fd) {
     $handle = $class->new_from_fd($fd, 'r')
       or croak "Can't open file descriptor $fd: $!";

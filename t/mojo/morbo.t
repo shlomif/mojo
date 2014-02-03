@@ -13,7 +13,7 @@ plan skip_all => 'set TEST_MORBO to enable this test (developer only!)'
 use File::Spec::Functions 'catdir';
 use File::Temp 'tempdir';
 use FindBin;
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Mojo::IOLoop;
 use Mojo::Server::Daemon;
 use Mojo::Server::Morbo;
@@ -141,10 +141,10 @@ SKIP: {
     'SO_REUSEPORT socket option';
 }
 
-sub _port { IO::Socket::INET->new(PeerAddr => '127.0.0.1', PeerPort => shift) }
+sub _port { IO::Socket::IP->new(PeerAddr => '127.0.0.1', PeerPort => shift) }
 
 sub _reuse_port {
-  IO::Socket::INET->new(
+  IO::Socket::IP->new(
     Listen    => 1,
     LocalPort => Mojo::IOLoop->generate_port,
     ReusePort => 1

@@ -6,7 +6,7 @@ BEGIN {
 }
 
 use Test::More;
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Mojo::ByteStream 'b';
 use Mojo::IOLoop;
 use Mojo::Transaction::WebSocket;
@@ -186,7 +186,7 @@ my $port = $ua->server->url->port;
 my $tx   = $ua->build_websocket_tx('ws://lalala/socket');
 my $finished;
 $tx->on(finish => sub { $finished++ });
-my $sock = IO::Socket::INET->new(PeerAddr => '127.0.0.1', PeerPort => $port);
+my $sock = IO::Socket::IP->new(PeerAddr => '127.0.0.1', PeerPort => $port);
 $sock->blocking(0);
 $tx->connection($sock);
 $result = '';

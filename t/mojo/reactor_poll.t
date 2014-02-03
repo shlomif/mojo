@@ -6,7 +6,7 @@ BEGIN {
 }
 
 use Test::More;
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Mojo::Reactor::Poll;
 
 # Instantiation
@@ -31,7 +31,7 @@ ok time < ($time + 10), 'stopped automatically';
 
 # Listen
 my $port   = Mojo::IOLoop->generate_port;
-my $listen = IO::Socket::INET->new(
+my $listen = IO::Socket::IP->new(
   Listen    => 5,
   LocalAddr => '127.0.0.1',
   LocalPort => $port
@@ -46,7 +46,7 @@ ok !$writable, 'handle is not writable';
 ok !$reactor->is_readable($listen), 'handle is not readable';
 
 # Connect
-my $client = IO::Socket::INET->new(PeerAddr => '127.0.0.1', PeerPort => $port);
+my $client = IO::Socket::IP->new(PeerAddr => '127.0.0.1', PeerPort => $port);
 $reactor->timer(1 => sub { shift->stop });
 $reactor->start;
 ok $readable, 'handle is readable';

@@ -2,7 +2,7 @@ package Mojo::IOLoop::Client;
 use Mojo::Base 'Mojo::EventEmitter';
 
 use Errno 'EINPROGRESS';
-use IO::Socket::INET;
+use IO::Socket::IP;
 use Scalar::Util 'weaken';
 use Socket qw(IPPROTO_TCP SO_ERROR TCP_NODELAY);
 
@@ -54,7 +54,7 @@ sub _connect {
     );
     $options{LocalAddr} = $args->{local_address} if $args->{local_address};
     $options{PeerAddr} =~ s/[\[\]]//g if $options{PeerAddr};
-    my $class = IPV6 ? 'IO::Socket::IP' : 'IO::Socket::INET';
+    my $class = IPV6 ? 'IO::Socket::IP' : 'IO::Socket::IP';
     return $self->emit(error => "Couldn't connect: $@")
       unless $self->{handle} = $handle = $class->new(%options);
 
